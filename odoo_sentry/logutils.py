@@ -11,8 +11,12 @@ import openerp.osv.osv
 
 from raven.handlers.logging import SentryHandler
 from raven.processors import SanitizePasswordsProcessor
-from raven.utils.compat import _urlparse
 from raven.utils.wsgi import get_environ, get_headers
+try:
+    from raven.utils.compat import urlparse
+except ImportError:
+    # Compatibility with raven < 6.0.0
+    from raven.utils.compat import _urlparse as urlparse
 
 
 # Mapping of Odoo logging level -> Python stdlib logging library log level.
@@ -29,7 +33,7 @@ def get_request_info(request):
 
     Heavily based on flask integration for Sentry: https://git.io/vP4i9.
     '''
-    urlparts = _urlparse.urlsplit(request.url)
+    urlparts = urlparse.urlsplit(request.url)
     return {
         'url': '%s://%s%s' % (urlparts.scheme, urlparts.netloc, urlparts.path),
         'query_string': urlparts.query,
