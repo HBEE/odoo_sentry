@@ -42,6 +42,10 @@ def initialize_raven(config):
         release=get_odoo_commit(odoo_dir),
         environment=environment,
         auto_log_stacks=auto_log_stacks,
+        processors=(
+            'openerp.addons.odoo_sentry.logutils.SanitizeOdooCookiesProcessor',
+            'raven.processors.SanitizePasswordsProcessor',
+        )
     )
 
     if level not in LOG_LEVEL_MAP:

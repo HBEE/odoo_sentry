@@ -10,6 +10,7 @@ import openerp.loglevels
 import openerp.osv.osv
 
 from raven.handlers.logging import SentryHandler
+from raven.processors import SanitizePasswordsProcessor
 from raven.utils.compat import _urlparse
 from raven.utils.wsgi import get_environ, get_headers
 
@@ -104,3 +105,15 @@ class OdooSentryHandler(SentryHandler):
         if self.include_extra_context:
             self.client.context.merge(get_extra_context())
         super(OdooSentryHandler, self).emit(record)
+
+
+class SanitizeOdooCookiesProcessor(SanitizePasswordsProcessor):
+    '''
+    Customized :class:`raven.processors.Processor`.
+
+    Allows to sanitize sensitive Odoo cookies, namely the  "session_id" cookie.
+    '''
+
+    FIELDS = frozenset([
+        'session_id',
+    ])
