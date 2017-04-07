@@ -3,6 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
+import urlparse
 
 import openerp.exceptions
 import openerp.http
@@ -10,7 +11,6 @@ import openerp.loglevels
 import openerp.osv.osv
 
 from raven.handlers.logging import SentryHandler
-from raven.utils.compat import _urlparse
 from raven.utils.wsgi import get_environ, get_headers
 
 
@@ -28,7 +28,7 @@ def get_request_info(request):
 
     Heavily based on flask integration for Sentry: https://git.io/vP4i9.
     '''
-    urlparts = _urlparse.urlsplit(request.url)
+    urlparts = urlparse.urlsplit(request.url)
     return {
         'url': '%s://%s%s' % (urlparts.scheme, urlparts.netloc, urlparts.path),
         'query_string': urlparts.query,
