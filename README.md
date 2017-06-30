@@ -2,6 +2,9 @@
 
 Odoo module which allows painless [Sentry](https://sentry.io) integration with Odoo.
 
+**Deprecated**: Please use the module from
+[OCA/server-tools](https://github.com/OCA/server-tools/tree/10.0/sentry).
+
 ![Screen shot](screenshot.png?raw=true "Odoo tracking with Sentry")
 
 More information on module installation and configuration can be found in the
